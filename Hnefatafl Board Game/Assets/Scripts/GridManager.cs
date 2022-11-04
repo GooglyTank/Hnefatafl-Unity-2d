@@ -13,6 +13,7 @@ public class GridManager : MonoBehaviour
 
 
     private void Start() {
+        DontDestroyOnLoad(gameObject);
         GenerateGrid();
     }
 
