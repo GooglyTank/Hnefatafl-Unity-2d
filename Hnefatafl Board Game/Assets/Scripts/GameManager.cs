@@ -7,13 +7,14 @@ public class GridManager : MonoBehaviour
     public int width = 9;
     public int height = 9;
 
+    public string CurrentTurn = "Defender";
+
     public Transform cam;
 
     public Tile tilePrefab;
 
 
     private void Start() {
-        DontDestroyOnLoad(gameObject);
         GenerateGrid();
     }
 

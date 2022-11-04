@@ -14,12 +14,20 @@ public class Tile : MonoBehaviour
     public GameObject Barrier;
     public GameObject ChipK;
 
+    public string CurrentTurn = "Defender";
+    public string CurrentChipSelected;
+
     public void Init(bool isOffset) {
         _renderer.color = isOffset ? offsetColor : baseColor;
     }
 
     void Start()
     {
+        GenerateStartingChips9x9();
+    }
+
+    void GenerateStartingChips9x9 () {
+
         // IGNORE THIS SHIT ILL FIX IT LATER
         if (gameObject.name == "Tile 0 0") {
             Instantiate(Barrier, gameObject.transform);
@@ -110,4 +118,13 @@ public class Tile : MonoBehaviour
             Instantiate(Barrier, gameObject.transform);
         }
     }
+
+    public void OnMouseDown() {
+        if (transform.childCount > 0) {
+            if (transform.GetChild(1).name.Contains("ChipD")) {
+                Debug.Log("ChipD CLICKED");
+            }
+        }
+    }
+
 }
