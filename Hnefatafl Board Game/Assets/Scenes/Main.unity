@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 9
   height: 9
-  StartingTeam: Defender
+  CurrentTurn: Defender
   cam: {fileID: 1856654222}
   tilePrefab: {fileID: 3361029179053992578, guid: c89ca384a4199c04bbe63d741fda4cfa, type: 3}
 --- !u!4 &1505854378

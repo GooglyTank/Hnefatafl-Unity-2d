@@ -15,7 +15,8 @@ public class Tile : MonoBehaviour
     public GameObject ChipK;
 
     public string CurrentTurn = "Defender";
-    public string CurrentChipSelected;
+    public GameObject CurrentChipSelected;
+    public string childName;
 
     public void Init(bool isOffset) {
         _renderer.color = isOffset ? offsetColor : baseColor;
@@ -24,11 +25,36 @@ public class Tile : MonoBehaviour
     void Start()
     {
         GenerateStartingChips9x9();
+        if (transform.childCount > 0) {
+            childName = transform.GetChild(0).name;
+        }
+
     }
 
+
+    void OnMouseOver() {
+        //Debug.Log(transform.name);
+        if (Input.GetMouseButtonDown(0)) {
+            if (transform.childCount > 0) {
+                if (childName.Contains("ChipD") && CurrentTurn == "Defender") {
+                    CurrentChipSelected = transform.GetChild(0);
+                }
+                if (childName.Contains("ChipA") && CurrentTurn == "Attacker") {
+                    CurrentChipSelected = transform.GetChild(0);
+                }
+                if (childName.Contains("ChipK") && CurrentTurn == "Attacker") {
+                    CurrentChipSelected = transform.GetChild(0);
+                }
+            } else {
+                if (CurrentChipSelected != null) {
+                    CurrentChipSelected.Parent = transform;
+                }
+            }
+        }
+    }
     void GenerateStartingChips9x9 () {
 
-        // IGNORE THIS SHIT ILL FIX IT LATER
+        // IGNORE THIS ILL FIX IT LATER
         if (gameObject.name == "Tile 0 0") {
             Instantiate(Barrier, gameObject.transform);
         }
@@ -116,14 +142,6 @@ public class Tile : MonoBehaviour
         }
                 if (gameObject.name == "Tile 8 8") {
             Instantiate(Barrier, gameObject.transform);
-        }
-    }
-
-    public void OnMouseDown() {
-        if (transform.childCount > 0) {
-            if (transform.GetChild(1).name.Contains("ChipD")) {
-                Debug.Log("ChipD CLICKED");
-            }
         }
     }
 
