@@ -14,8 +14,8 @@ public class Tile : MonoBehaviour
     public GameObject Barrier;
     public GameObject ChipK;
 
-    public string CurrentTurn = "Defender";
-    public GameObject CurrentChipSelected;
+    public static string CurrentTurn = "Defender";
+    public static GameObject CurrentChipSelected;
     public string childName;
 
     public void Init(bool isOffset) {
@@ -25,29 +25,50 @@ public class Tile : MonoBehaviour
     void Start()
     {
         GenerateStartingChips9x9();
-        if (transform.childCount > 0) {
-            childName = transform.GetChild(0).name;
-        }
+        
 
     }
-
+        private void Update() {
+            if (transform.childCount > 0) {
+                    childName = transform.GetChild(0).name;
+                }
+        }
 
     void OnMouseOver() {
-        //Debug.Log(transform.name);
         if (Input.GetMouseButtonDown(0)) {
+            //Debug.Log(Tile.CurrentChipSelected);
             if (transform.childCount > 0) {
-                if (childName.Contains("ChipD") && CurrentTurn == "Defender") {
-                    CurrentChipSelected = transform.GetChild(0);
+                if (childName.Contains("ChipD") && Tile.CurrentTurn == "Defender") {
+                    Debug.Log("Changed to D");
+                    Tile.CurrentChipSelected = transform.GetChild(0).gameObject;
+                    Debug.Log(CurrentChipSelected.name);
+                    Tile.CurrentTurn = "Defender";
                 }
-                if (childName.Contains("ChipA") && CurrentTurn == "Attacker") {
-                    CurrentChipSelected = transform.GetChild(0);
+                if (childName.Contains("ChipA") && Tile.CurrentTurn == "Attacker") {
+                    Debug.Log("Changed to A");
+                    Tile.CurrentChipSelected = transform.GetChild(0).gameObject;
+                    Debug.Log(CurrentChipSelected.name);   
+                    Tile.CurrentTurn = "Attacker";
                 }
-                if (childName.Contains("ChipK") && CurrentTurn == "Attacker") {
-                    CurrentChipSelected = transform.GetChild(0);
+                if (childName.Contains("ChipK") && Tile.CurrentTurn == "Attacker") {
+                    Debug.Log("Changed to King");
+                    Tile.CurrentChipSelected = transform.GetChild(0).gameObject;
+                    Debug.Log(CurrentChipSelected.name);
+                    Tile.CurrentTurn = "Attacker";
                 }
             } else {
                 if (CurrentChipSelected != null) {
-                    CurrentChipSelected.Parent = transform;
+                    Debug.Log("Moving piece");
+                    Tile.CurrentChipSelected.transform.SetParent(gameObject.transform);
+                    Tile.CurrentChipSelected.transform.position = gameObject.transform.position;
+                    Debug.Log(Tile.CurrentChipSelected.transform.parent.name);
+                    Tile.CurrentChipSelected = null;
+                    if (Tile.CurrentTurn == "Attacker") {
+                        Tile.CurrentTurn = "Defender";
+                    } else {
+                        Tile.CurrentTurn = "Attacker";
+                    }
+                    
                 }
             }
         }
