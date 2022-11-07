@@ -18,6 +18,8 @@ public class Tile : MonoBehaviour
     public int TileX; // Tiles x pos
     public int TileY; // Tiles y pos
 
+    public GameObject EmptyTile;
+
     public GameObject TileAbove;
     public GameObject TileBelow;
     public GameObject TileRight;
@@ -27,6 +29,8 @@ public class Tile : MonoBehaviour
     public GameObject TileBelow2;
     public GameObject TileRight2;
     public GameObject TileLeft2;
+
+
     public static string CurrentTurn = "Defender"; //The current team thats current turn
     public static GameObject CurrentChipSelected; // Current chip selected
     public GameObject childName; // Name of child chip if there is one
@@ -40,8 +44,7 @@ public class Tile : MonoBehaviour
 
     void Start()
     {
-        gameManager = GameObject.Find("GameManager");
-        GenerateStartingChips9x9(); //Generates the starting chips
+        EmptyTile = GameObject.Find("EmptyTile");
         TileAbove = GameObject.Find($"Tile {TileX} {TileY + 1}");
         TileBelow = GameObject.Find($"Tile {TileX} {TileY - 1}");
         TileRight = GameObject.Find($"Tile {TileX + 1} {TileY}");
@@ -51,6 +54,42 @@ public class Tile : MonoBehaviour
         TileBelow2 = GameObject.Find($"Tile {TileX} {TileY - 2}");
         TileRight2 = GameObject.Find($"Tile {TileX + 2} {TileY}");
         TileLeft2 = GameObject.Find($"Tile {TileX - 2} {TileY}");
+        gameManager = GameObject.Find("GameManager");
+
+        if (TileAbove == null) {
+            Debug.Log("Setting to null");
+            TileAbove = EmptyTile;
+        }
+        if (TileBelow == null) {
+            Debug.Log("Setting to null");
+            TileBelow = EmptyTile;
+        }
+        if (TileLeft == null) {
+            Debug.Log("Setting to null");
+            TileLeft = EmptyTile;
+        }
+        if (TileRight == null) {
+            Debug.Log("Setting to null");
+            TileRight = EmptyTile;
+        }
+        if (TileAbove2 == null) {
+            Debug.Log("Setting to null");
+            TileAbove2 = EmptyTile;
+        }
+        if (TileBelow2 == null) {
+            Debug.Log("Setting to null");
+            TileBelow2 = EmptyTile;
+        }
+        if (TileLeft2 == null) {
+            Debug.Log("Setting to null");
+            TileLeft2 = EmptyTile;
+        }
+        if (TileRight2 == null) {
+            Debug.Log("Setting to null");
+            TileRight2 = EmptyTile;
+        }
+        GenerateStartingChips9x9(); //Generates the starting chips
+
     }
         private void Update() {
            if (transform.childCount > 0) { //Checks for any children
@@ -88,6 +127,7 @@ public class Tile : MonoBehaviour
                 if (hasBarrier == true && Tile.CurrentChipSelected != null && Tile.CurrentChipSelected.name.Contains("ChipK") && !childName.name.Contains("ChipK")) { //Lets the King chip move on barriers and not others
                     Tile.CurrentChipSelected.transform.SetParent(gameObject.transform);
                     Tile.CurrentChipSelected.transform.position = gameObject.transform.position;
+                    gameManager.GetComponent<GameManager>().AttackerChipsNum = 0;
                 }
             } else {
                 if (Tile.CurrentChipSelected != null) { //If there is no children and a current selected chip when the mouse is clicked on a tile
@@ -140,110 +180,97 @@ public class Tile : MonoBehaviour
     }
 
     void CheckIfTakenPiece() {
-        if (TileAbove != null && TileAbove.transform.childCount > 0) {
+       
+        if (TileAbove.transform.childCount > 0) {
             Debug.Log("Is Child Above");
                 if (TileAbove.transform.GetChild(0).name.Contains("ChipD") && Tile.CurrentTurn == "Attacker") { 
                     Debug.Log("Is Child Above Enemy");
-                    if (TileAbove2 != null && TileAbove2.transform.childCount > 0 && TileAbove2.transform.GetChild(0).name.Contains("ChipA") || TileAbove2.transform.GetChild(0).name.Contains("ChipK") ) { 
+                    if (TileAbove2.transform.childCount > 0 && TileAbove2.transform.GetChild(0).name.Contains("ChipA") || TileAbove2.transform.childCount > 0 && TileAbove2.transform.GetChild(0).name.Contains("Barrier")) { 
                         Destroy(TileAbove.transform.GetChild(0).gameObject);
-                        gameManager.GetComponent<GameManager>().AttackerChipsNum = gameManager.GetComponent<GameManager>().AttackerChipsNum - 1;
+                        gameManager.GetComponent<GameManager>().DefenderChipsNum = gameManager.GetComponent<GameManager>().DefenderChipsNum - 1;
                     }
                 }
                 if (TileAbove.transform.GetChild(0).name.Contains("ChipA") && Tile.CurrentTurn == "Defender") { 
                     Debug.Log("Is Child Above Enemy");
-                    if (TileAbove2 != null && TileAbove2.transform.childCount > 0 && TileAbove2.transform.GetChild(0).name.Contains("ChipD")) { 
+                    if (TileAbove2.transform.childCount > 0 && TileAbove2.transform.GetChild(0).name.Contains("ChipD") || TileAbove2.transform.childCount > 0 && TileAbove2.transform.GetChild(0).name.Contains("ChipK") || TileAbove2.transform.childCount > 0 && TileAbove2.transform.GetChild(0).name.Contains("Barrier") ) { 
                         Destroy(TileAbove.transform.GetChild(0).gameObject);
                         gameManager.GetComponent<GameManager>().AttackerChipsNum = gameManager.GetComponent<GameManager>().AttackerChipsNum - 1;
                     }
                 }
-                if (TileAbove.transform.GetChild(0).name.Contains("ChipK") && Tile.CurrentTurn == "Defender") { 
+                if (TileAbove.transform.GetChild(0).name.Contains("ChipK") && Tile.CurrentTurn == "Attacker") { 
                     Debug.Log("Is Child Above Enemy");
-                    if (TileAbove2 != null && TileAbove2.transform.childCount > 0 && TileAbove2.transform.GetChild(0).name.Contains("ChipD")) { 
+                    if (TileAbove2.transform.childCount > 0 && TileAbove2.transform.GetChild(0).name.Contains("ChipA") || TileAbove2.transform.childCount > 0 && TileAbove2.transform.GetChild(0).name.Contains("Barrier")) { 
                         Destroy(TileAbove.transform.GetChild(0).gameObject);
                         gameManager.GetComponent<GameManager>().DefenderChipsNum = 0;
                     }
                 }
-                if (TileAbove.transform.GetChild(0).name.Contains("ChipD") || TileAbove.transform.GetChild(0).name.Contains("ChipA") || TileAbove.transform.GetChild(0).name.Contains("ChipK") ) {
-                    if (TileAbove2.transform.childCount > 0 && TileAbove2.transform.GetChild(0).name.Contains("Barrier")) { 
-                        Destroy(TileAbove.transform.GetChild(0).gameObject);
-                        if (TileAbove.transform.GetChild(0).name.Contains("ChipK")) {
-                            gameManager.GetComponent<GameManager>().DefenderChipsNum = 0;
-                        }
-                        if (TileAbove.transform.GetChild(0).name.Contains("ChipA")) {
-                            gameManager.GetComponent<GameManager>().AttackerChipsNum = gameManager.GetComponent<GameManager>().AttackerChipsNum - 1;
-                        }
-                        if (TileAbove.transform.GetChild(0).name.Contains("ChipD")) {
-                            gameManager.GetComponent<GameManager>().DefenderChipsNum = gameManager.GetComponent<GameManager>().DefenderChipsNum - 1;
-                        }
-                    }
-                }
         }
-        if (TileBelow != null && TileBelow.gameObject.transform.childCount > 0) {
+        if (TileBelow.transform.childCount > 0) {
             if (TileBelow.transform.GetChild(0).name.Contains("ChipD") && Tile.CurrentTurn == "Attacker") { 
-                    if (TileBelow2.transform.childCount > 0 && TileBelow2.transform.GetChild(0).name.Contains("ChipA") || TileBelow2.transform.GetChild(0).name.Contains("ChipK") ) { 
+                    if (TileBelow2.transform.childCount > 0 && TileBelow2.transform.GetChild(0).name.Contains("ChipA") || TileBelow2.transform.childCount > 0 && TileBelow2.transform.GetChild(0).name.Contains("Barrier")) { 
                         Destroy(TileBelow.transform.GetChild(0).gameObject);
-                        gameManager.GetComponent<GameManager>().AttackerChipsNum = gameManager.GetComponent<GameManager>().AttackerChipsNum - 1;
+                        gameManager.GetComponent<GameManager>().DefenderChipsNum = gameManager.GetComponent<GameManager>().DefenderChipsNum - 1;
                     }
                 }
                 if (TileBelow.transform.GetChild(0).name.Contains("ChipA") && Tile.CurrentTurn == "Defender") { 
-                    if (TileBelow2.transform.childCount > 0 && TileBelow2.transform.GetChild(0).name.Contains("ChipD")) { 
+                    if (TileBelow2.transform.childCount > 0 && TileBelow2.transform.GetChild(0).name.Contains("ChipD") || TileBelow2.transform.childCount > 0 && TileBelow2.transform.GetChild(0).name.Contains("ChipK") || TileBelow2.transform.childCount > 0 && TileBelow2.transform.GetChild(0).name.Contains("Barrier")) { 
                         Destroy(TileBelow.transform.GetChild(0).gameObject);
                         gameManager.GetComponent<GameManager>().AttackerChipsNum = gameManager.GetComponent<GameManager>().AttackerChipsNum - 1;
                     }
                 }
-                if (TileBelow.transform.GetChild(0).name.Contains("ChipK") && Tile.CurrentTurn == "Defender") { 
-                    if (TileBelow2.transform.childCount > 0 && TileBelow2.transform.GetChild(0).name.Contains("ChipD")) { 
+                if (TileBelow.transform.GetChild(0).name.Contains("ChipK") && Tile.CurrentTurn == "Attacker") { 
+                    if (TileBelow2.transform.childCount > 0 && TileBelow2.transform.GetChild(0).name.Contains("ChipA") || TileBelow2.transform.childCount > 0 && TileBelow2.transform.GetChild(0).name.Contains("Barrier")) { 
                         Destroy(TileBelow.transform.GetChild(0).gameObject);
-                        gameManager.GetComponent<GameManager>().AttackerChipsNum = 0;
+                        gameManager.GetComponent<GameManager>().DefenderChipsNum = 0;
                     }
                 }
         }
-        if (TileRight != null && TileRight.gameObject.transform.childCount > 0) {
+        if (TileRight.transform.childCount > 0) {
             if (TileRight.transform.GetChild(0).name.Contains("ChipD") && Tile.CurrentTurn == "Attacker") { 
-                    if (TileRight2.transform.childCount > 0 && TileRight2.transform.GetChild(0).name.Contains("ChipA") || TileRight2.transform.GetChild(0).name.Contains("ChipK") ) { 
+                    if (TileRight2.transform.childCount > 0 && TileRight2.transform.GetChild(0).name.Contains("ChipA") || TileRight2.transform.childCount > 0 && TileRight2.transform.GetChild(0).name.Contains("Barrier")) { 
                         Destroy(TileRight.transform.GetChild(0).gameObject);
-                        gameManager.GetComponent<GameManager>().AttackerChipsNum = gameManager.GetComponent<GameManager>().AttackerChipsNum - 1;
+                        gameManager.GetComponent<GameManager>().DefenderChipsNum = gameManager.GetComponent<GameManager>().DefenderChipsNum - 1;
                     }
                 }
                 if (TileRight.transform.GetChild(0).name.Contains("ChipA") && Tile.CurrentTurn == "Defender") { 
-                    if (TileRight2.transform.childCount > 0 && TileRight2.transform.GetChild(0).name.Contains("ChipD")) { 
+                    if (TileRight2.transform.childCount > 0 && TileRight2.transform.GetChild(0).name.Contains("ChipD") || TileRight2.transform.childCount > 0 && TileRight2.transform.GetChild(0).name.Contains("ChipK") || TileRight2.transform.childCount > 0 && TileRight2.transform.GetChild(0).name.Contains("Barrier")) { 
                         Destroy(TileRight.transform.GetChild(0).gameObject);
                         gameManager.GetComponent<GameManager>().AttackerChipsNum = gameManager.GetComponent<GameManager>().AttackerChipsNum - 1;
                     }
                 }
-                if (TileRight.transform.GetChild(0).name.Contains("ChipK") && Tile.CurrentTurn == "Defender") { 
-                    if (TileRight2.transform.childCount > 0 && TileRight2.transform.GetChild(0).name.Contains("ChipD")) { 
+                if (TileRight.transform.GetChild(0).name.Contains("ChipK") && Tile.CurrentTurn == "Attacker") { 
+                    if (TileRight2.transform.childCount > 0 && TileRight2.transform.GetChild(0).name.Contains("ChipA") || TileRight2.transform.childCount > 0 && TileRight2.transform.GetChild(0).name.Contains("Barrier")) { 
                         Destroy(TileRight.transform.GetChild(0).gameObject);
-                        gameManager.GetComponent<GameManager>().AttackerChipsNum = 0;
+                        gameManager.GetComponent<GameManager>().DefenderChipsNum = 0;
                     }
                 }
         }
-        if (TileLeft != null && TileLeft.gameObject.transform.childCount > 0) {
+        if (TileLeft.transform.childCount > 0) {
             if (TileLeft.transform.GetChild(0).name.Contains("ChipD") && Tile.CurrentTurn == "Attacker") { 
-                    if (TileLeft2.transform.childCount > 0 && TileLeft2.transform.GetChild(0).name.Contains("ChipA") || TileLeft2.transform.GetChild(0).name.Contains("ChipK") ) { 
+                    if (TileLeft2.transform.childCount > 0 && TileLeft2.transform.GetChild(0).name.Contains("ChipA") || TileLeft2.transform.childCount > 0 && TileLeft2.transform.GetChild(0).name.Contains("Barrier")) { 
                         Destroy(TileLeft.transform.GetChild(0).gameObject);
-                        gameManager.GetComponent<GameManager>().AttackerChipsNum = gameManager.GetComponent<GameManager>().AttackerChipsNum - 1;
+                        gameManager.GetComponent<GameManager>().DefenderChipsNum = gameManager.GetComponent<GameManager>().DefenderChipsNum - 1;
                     }
                 }
                 if (TileLeft.transform.GetChild(0).name.Contains("ChipA") && Tile.CurrentTurn == "Defender") { 
-                    if (TileLeft2.transform.childCount > 0 && TileLeft2.transform.GetChild(0).name.Contains("ChipD")) { 
+                    if (TileLeft2.transform.childCount > 0 && TileLeft2.transform.GetChild(0).name.Contains("ChipD") || TileLeft2.transform.childCount > 0 && TileLeft2.transform.GetChild(0).name.Contains("ChipK") || TileLeft2.transform.childCount > 0 && TileLeft2.transform.GetChild(0).name.Contains("Barrier")) { 
                         Destroy(TileLeft.transform.GetChild(0).gameObject);
                         gameManager.GetComponent<GameManager>().AttackerChipsNum = gameManager.GetComponent<GameManager>().AttackerChipsNum - 1;
                     }
                 }
-                if (TileLeft.transform.GetChild(0).name.Contains("ChipK") && Tile.CurrentTurn == "Defender") { 
-                    if (TileLeft2.transform.childCount > 0 && TileLeft2.transform.GetChild(0).name.Contains("ChipD")) { 
+                if (TileLeft.transform.GetChild(0).name.Contains("ChipK") && Tile.CurrentTurn == "Attacker") { 
+                    if (TileLeft2.transform.childCount > 0 && TileLeft2.transform.GetChild(0).name.Contains("ChipA") || TileLeft2.transform.childCount > 0 && TileLeft2.transform.GetChild(0).name.Contains("Barrier")) { 
                         Destroy(TileLeft.transform.GetChild(0).gameObject);
-                        gameManager.GetComponent<GameManager>().AttackerChipsNum = 0;
+                        gameManager.GetComponent<GameManager>().DefenderChipsNum = 0;
                     }
                 }
         }
-              if (Tile.CurrentTurn == "Attacker") {
-                    Tile.CurrentTurn = "Defender";
-                } 
-            if (Tile.CurrentTurn == "Defender") {
-                Tile.CurrentTurn = "Attacker";
-            }
+        if (Tile.CurrentTurn == "Attacker") {
+            Tile.CurrentTurn = "Defender";
+        } else {
+            Tile.CurrentTurn = "Attacker";
+        }
+        
     }
     void GenerateStartingChips9x9 () {
 

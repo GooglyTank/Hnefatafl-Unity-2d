@@ -105,9 +105,20 @@ MonoBehaviour:
   ChipD: {fileID: 2050661092384211279, guid: 9f1eb9b0f3868274a8298074c94701d3, type: 3}
   Barrier: {fileID: 6353449486785842312, guid: ea902133e3bc5d64fa5386bc373a4300, type: 3}
   ChipK: {fileID: 5343338862019370105, guid: d64f092c296e26248b0761ac79f02255, type: 3}
-  CurrentTurn: Defender
-  CurrentChipSelected: 
-  childName: 
+  TileX: 0
+  TileY: 0
+  EmptyTile: {fileID: 0}
+  TileAbove: {fileID: 0}
+  TileBelow: {fileID: 0}
+  TileRight: {fileID: 0}
+  TileLeft: {fileID: 0}
+  TileAbove2: {fileID: 0}
+  TileBelow2: {fileID: 0}
+  TileRight2: {fileID: 0}
+  TileLeft2: {fileID: 0}
+  childName: {fileID: 0}
+  hasBarrier: 0
+  gameManager: {fileID: 0}
 --- !u!61 &3720090623700135328
 BoxCollider2D:
   m_ObjectHideFlags: 0
