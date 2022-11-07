@@ -238,6 +238,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 9
   height: 9
+  AttackerChipsNum: 16
+  DefenderChipsNum: 9
   CurrentTurn: Defender
   cam: {fileID: 94962920}
   tilePrefab: {fileID: 3361029179053992578, guid: c89ca384a4199c04bbe63d741fda4cfa, type: 3}
