@@ -1,9 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+
+    public TextMeshProUGUI winText;
+    public Button restartButton;
+
+    public GameObject mainCam;
     public int width = 9;
     public int height = 9;
 
@@ -24,13 +32,20 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (AttackerChipsNum <= 0) {
-            Debug.Log("Game over Defenders Win!");
+            restartButton.gameObject.SetActive(true);
+            winText.gameObject.SetActive(true);
+            winText.text = "Defenders Win!";
         }
         if (DefenderChipsNum <= 0) {
-            Debug.Log("Game over Attackers Win!");
+            restartButton.gameObject.SetActive(true);
+            winText.gameObject.SetActive(true);
+            winText.text = "Attackers Win!";
         }
     }
 
+    public void ResetGame() {
+        SceneManager.LoadScene("Main");
+    }
     void GenerateGrid() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -47,4 +62,8 @@ public class GameManager : MonoBehaviour
         cam.transform.position = new Vector3((float)width/2 -0.5f, (float)height/2 -0.5f, -10);
     }
 
+
+
 }
+
+

@@ -103,6 +103,11 @@ public class Tile : MonoBehaviour
                  if (!transform.GetChild(0).name.Contains("Barrier")) { //Checks if there isnt a barrier
                 childName = transform.GetChild(0).gameObject; //Sets the child name to the chip
                 }
+                if (childName.name.Contains("ChipK")) {
+                    if (TileAbove.transform.childCount > 0 && TileAbove.transform.GetChild(0).name.Contains("ChipA") && TileBelow.transform.childCount > 0 && TileBelow.transform.GetChild(0).name.Contains("ChipA") && TileLeft.transform.childCount > 0 && TileLeft.transform.GetChild(0).name.Contains("ChipA") && TileRight.transform.childCount > 0 && TileRight.transform.GetChild(0).name.Contains("ChipA")) {
+                        gameManager.GetComponent<GameManager>().DefenderChipsNum = 0;
+                    }
+                }
            }  
         }
 
