@@ -46,6 +46,9 @@ public class GameManager : MonoBehaviour
     public void ResetGame() {
         SceneManager.LoadScene("Main");
     }
+    public void EndGame() {
+        Application.Quit();
+    }
     void GenerateGrid() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
