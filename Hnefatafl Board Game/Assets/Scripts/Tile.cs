@@ -8,7 +8,7 @@ public class Tile : MonoBehaviour
     public Color baseColor; //Even Color of Tile
     public Color offsetColor; //Odd color of Tile
 
-    public SpriteRenderer _renderer; //Sprite render for changing color
+    public SpriteRenderer _renderer; //Sprite render for changing colorw
 
     public GameObject ChipA; //Attacker Chip
     public GameObject ChipD; // Defender Chip
@@ -149,7 +149,10 @@ public class Tile : MonoBehaviour
              for(int i = SmallestNum; i < BiggestNum; i++) //Loops through every tile in between where the chip started and being moved to
                 {
                     if (GameObject.Find($"Tile {TileX} {i}").gameObject.transform.childCount > 0 && GameObject.Find($"Tile {TileX} {i}").gameObject.transform.name != $"Tile {Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileX} {Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileY}") { //If any tiles in between has a child set can move to false 
-                        CanMove = false;
+                        if (GameObject.Find($"Tile {TileX} {i}").gameObject.transform.GetChild(0).name.Contains("BarrierTile") == false) {
+                            Debug.Log("cant Move");
+                            CanMove = false;
+                        }
                     } 
                 }
                 if (CanMove == true) { //Checks if can move is true
@@ -169,7 +172,10 @@ public class Tile : MonoBehaviour
              for(int i = SmallestNum; i < BiggestNum; i++)
                 {
                     if (GameObject.Find($"Tile {i} {TileY}").gameObject.transform.childCount > 0 && GameObject.Find($"Tile {i} {TileY}").gameObject.transform.name != $"Tile {Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileX} {Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileY}") {
-                        CanMove = false;
+                        if (GameObject.Find($"Tile {i} {TileY}").gameObject.transform.GetChild(0).name.Contains("BarrierTile") == false) {
+                            Debug.Log("cant Move");
+                            CanMove = false;
+                        }
                     }
                 }   
                 if (CanMove == true) {
