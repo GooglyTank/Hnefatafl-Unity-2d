@@ -30,7 +30,7 @@ public class Tile : MonoBehaviour
     public GameObject TileRight2;
     public GameObject TileLeft2;
 
-
+    
     public static string CurrentTurn = "Defender"; //The current team thats current turn
     public static GameObject CurrentChipSelected; // Current chip selected
     public GameObject childName; // Name of child chip if there is one
@@ -44,6 +44,7 @@ public class Tile : MonoBehaviour
 
     void Start()
     {
+
         EmptyTile = GameObject.Find("EmptyTile");
         TileAbove = GameObject.Find($"Tile {TileX} {TileY + 1}");
         TileBelow = GameObject.Find($"Tile {TileX} {TileY - 1}");
@@ -92,6 +93,7 @@ public class Tile : MonoBehaviour
 
     }
         private void Update() {
+           
            if (transform.childCount > 0) { //Checks for any children
                if (transform.GetChild(0).name.Contains("Barrier")) { // Checks if the 1st child is a barrier
                    hasBarrier = true; //Sets barrier to true if it is
@@ -105,7 +107,7 @@ public class Tile : MonoBehaviour
                 }
                 if (childName.name.Contains("ChipK")) {
                     if (TileAbove.transform.childCount > 0 && TileAbove.transform.GetChild(0).name.Contains("ChipA") && TileBelow.transform.childCount > 0 && TileBelow.transform.GetChild(0).name.Contains("ChipA") && TileLeft.transform.childCount > 0 && TileLeft.transform.GetChild(0).name.Contains("ChipA") && TileRight.transform.childCount > 0 && TileRight.transform.GetChild(0).name.Contains("ChipA")) {
-                        gameManager.GetComponent<GameManager>().DefenderChipsNum = 0;
+                        //gameManager.GetComponent<GameManager>().DefenderChipsNum = 0;
                     }
                 }
            }  
@@ -284,96 +286,25 @@ public class Tile : MonoBehaviour
         
     }
     void GenerateStartingChips9x9 () {
-
-        // A ton of if statements to place chips on the starting tiles could be more efficient. 
+        //Generate all Barriers and King. 
         if (gameObject.name == "Tile 0 0") {
             Instantiate(Barrier, gameObject.transform);
         }
-                if (gameObject.name == "Tile 0 3") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 0 4") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 0 5") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 0 8") {
+        if (gameObject.name == "Tile 0 8") {
             Instantiate(Barrier, gameObject.transform);
         }
-                if (gameObject.name == "Tile 1 4") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 2 4") {
-            Instantiate(ChipA, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 3 0") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 3 4") {
-            Instantiate(ChipA, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 3 8") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 4 0") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 4 1") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 4 2") {
-            Instantiate(ChipA, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 4 3") {
-            Instantiate(ChipA, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 4 4") {
+        if (gameObject.name == "Tile 4 4") {
             Instantiate(Barrier, gameObject.transform);
-            Instantiate(ChipK, gameObject.transform);
+            //Instantiate(ChipK, gameObject.transform).transform.position = Vector2.Lerp(transform.position, destination.pos, Time.deltaTime);
+            
         }
-                if (gameObject.name == "Tile 4 5") {
-            Instantiate(ChipA, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 4 6") {
-            Instantiate(ChipA, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 4 7") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 4 8") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 5 0") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 5 4") {
-            Instantiate(ChipA, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 5 8") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 6 4") {
-            Instantiate(ChipA, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 7 4") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 8 0") {
+        if (gameObject.name == "Tile 8 0") {
             Instantiate(Barrier, gameObject.transform);
         }
-                if (gameObject.name == "Tile 8 3") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 8 4") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 8 5") {
-            Instantiate(ChipD, gameObject.transform);
-        }
-                if (gameObject.name == "Tile 8 8") {
+        if (gameObject.name == "Tile 8 8") {
             Instantiate(Barrier, gameObject.transform);
         }
     }
 }
+
 
