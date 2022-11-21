@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     public GameObject StackA;
     public GameObject StackD;
 
-    public int speed = 1;
+    public int speed = 10;
 
     public GameObject ChipKA;
 
@@ -42,13 +42,26 @@ public class GameManager : MonoBehaviour
 
     public float elapsedTime;
 
-    
+    public bool startMovingA = false;
+    public bool startMovingD = false;
+
+    int chipNumMoveA;
+    int chipNumMoveD;
+
+    int timesToPlayA;
+    int timesToPlayD;
+
+    public AudioSource clickSound;
 
 
     private void Start() {
         if (GridType == "9x9") {
             AttackerChipsNum = 16;
             DefenderChipsNum = 9;
+            timesToPlayA = AttackerChipsNum;
+            timesToPlayD = DefenderChipsNum - 1;
+            chipNumMoveA = -1;
+            chipNumMoveD = -1;
             width = 9;
             height = 9;
             startTileLocD = new Dictionary<int, string>(AttackerChipsNum) {
@@ -83,6 +96,8 @@ public class GameManager : MonoBehaviour
         if (GridType == "11x11") {
             AttackerChipsNum = 24;
             DefenderChipsNum = 13;
+            chipNumMoveA = 25;
+            chipNumMoveD = 14;
             width = 11;
             height = 11;
             startTileLocA = new Dictionary<int, string>(AttackerChipsNum) {
@@ -98,9 +113,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        elapsedTime += Time.deltaTime;
-        float percentageComplete = elapsedTime / speed;
-        //ChipKA.transform.position = Vector3.Lerp(ChipKA.transform.position, GameObject.Find("EmptyTile").transform.position, percentageComplete);
+        
         if (AttackerChipsNum <= 0) {
             restartButton.gameObject.SetActive(true);
             winText.gameObject.SetActive(true);
@@ -113,12 +126,80 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    IEnumerator AnimateMoveA(int chipNumMove)
+    {
+        int timesToPlay = AttackerChipsNum;
+        
+        float journey = 0f;
+
+            while (journey <= speed)
+            {
+                timesToPlay -= 1;
+                journey = journey + Time.deltaTime;
+                float percent = Mathf.Clamp01(journey / speed);
+                GameObject.Find($"ChipA {chipNumMove}").transform.parent = GameObject.Find(startTileLocA[chipNumMove]).transform;
+                GameObject.Find($"ChipA {chipNumMove}").transform.position = Vector3.Lerp(GameObject.Find($"ChipA {chipNumMove}").transform.position, GameObject.Find(startTileLocA[chipNumMove]).transform.position, percent);
+                yield return null;
+            }
+        
+    }
+    IEnumerator AnimateMovePerA()
+    {
+        while (timesToPlayA > 0) {
+        timesToPlayA -= 1;
+        chipNumMoveA = chipNumMoveA +  1;
+        StartCoroutine(AnimateMoveA(chipNumMoveA));
+        clickSound.Play();
+        yield return new WaitForSeconds(.25f);
+        }
+    }
+
+    IEnumerator AnimateMoveD(int chipNumMove)
+    {
+        int timesToPlay = AttackerChipsNum;
+        
+        float journey = 0f;
+
+            while (journey <= speed)
+            {
+                timesToPlay += 1;
+                journey = journey + Time.deltaTime;
+                float percent = Mathf.Clamp01(journey / speed);
+                GameObject.Find($"ChipD {chipNumMove}").transform.parent = GameObject.Find(startTileLocD[chipNumMove]).transform;
+                GameObject.Find($"ChipD {chipNumMove}").transform.position = Vector3.Lerp(GameObject.Find($"ChipD {chipNumMove}").transform.position, GameObject.Find(startTileLocD[chipNumMove]).transform.position, percent);
+                yield return null;
+            }
+        
+    }
+    IEnumerator AnimateMovePerD()
+    {
+        while (timesToPlayD > 0) {
+        timesToPlayD -= 1;
+        chipNumMoveD =  chipNumMoveD + 1;
+        StartCoroutine(AnimateMoveD(chipNumMoveD));
+        clickSound.Play();
+        yield return new WaitForSeconds(.25f);
+        }
+    }
+    
+
+    void MoveChipD()
+    { 
+        StartCoroutine(AnimateMovePerD());
+    }
+    void MoveChipA()
+    { 
+        StartCoroutine(AnimateMovePerA());
+    }
     public void ResetGame() {
         SceneManager.LoadScene("Main");
     }
     public void EndGame() {
         Application.Quit();
     }
+
+   
     void GenerateGrid() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -135,13 +216,21 @@ public class GameManager : MonoBehaviour
         cam.transform.position = new Vector3((float)width/2 -0.5f, (float)height/2 -0.5f, -10);
 
         for (int i = 0; i < AttackerChipsNum; i++) {
-            Instantiate(ChipA, StackA.Transform).name = $"ChipA {i}";
-            GameObject.Find($"ChipA {i}").transform.position.y = GameObject.Find($"ChipA {i}").transform.position.y +1*i;
-            
-            
-        }
-        for (int i = 0; i < DefenderChipsNum; i++) {
-            Instantiate(ChipD);
+            Instantiate(ChipA, StackA.transform).name = $"ChipA {i}";
+            GameObject CurrentChipA = GameObject.Find($"ChipA {i}");
+            CurrentChipA.transform.position = new Vector3(CurrentChipA.transform.position.x , .35f*i, CurrentChipA.transform.position.z);
+           if (i == AttackerChipsNum - 1) {
+               MoveChipA();
+           }
+        }   
+        for (int i = 0; i < DefenderChipsNum - 1; i++) {
+            Debug.Log(i);
+            Instantiate(ChipD, StackD.transform).name = $"ChipD {i}";
+            GameObject CurrentChipD = GameObject.Find($"ChipD {i}");
+            CurrentChipD.transform.position = new Vector3(CurrentChipD.transform.position.x , .35f*i, CurrentChipD.transform.position.z);
+           if (i == DefenderChipsNum - 2) {
+               MoveChipD();
+           }
         }
     }
 

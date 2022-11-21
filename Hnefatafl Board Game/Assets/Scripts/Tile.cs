@@ -295,7 +295,7 @@ public class Tile : MonoBehaviour
         }
         if (gameObject.name == "Tile 4 4") {
             Instantiate(Barrier, gameObject.transform);
-            //Instantiate(ChipK, gameObject.transform).transform.position = Vector2.Lerp(transform.position, destination.pos, Time.deltaTime);
+            Instantiate(ChipK, gameObject.transform);
             
         }
         if (gameObject.name == "Tile 8 0") {
