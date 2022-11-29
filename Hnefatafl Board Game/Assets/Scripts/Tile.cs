@@ -89,8 +89,13 @@ public class Tile : MonoBehaviour
             Debug.Log("Setting to null");
             TileRight2 = EmptyTile;
         }
-        GenerateStartingChips9x9(); //Generates the starting chips
 
+        if (gameManager.GetComponent<GameManager>().GridType == "11x11") {
+            GenerateStartingChips11x11(); //Generates the starting chips
+        }
+        if (gameManager.GetComponent<GameManager>().GridType == "9x9") {
+            GenerateStartingChips9x9(); //Generates the starting chips
+        }
     }
         private void Update() {
            
@@ -302,6 +307,26 @@ public class Tile : MonoBehaviour
             Instantiate(Barrier, gameObject.transform);
         }
         if (gameObject.name == "Tile 8 8") {
+            Instantiate(Barrier, gameObject.transform);
+        }
+    }
+    void GenerateStartingChips11x11 () {
+        //Generate all Barriers and King. 
+        if (gameObject.name == "Tile 0 0") {
+            Instantiate(Barrier, gameObject.transform);
+        }
+        if (gameObject.name == "Tile 0 10") {
+            Instantiate(Barrier, gameObject.transform);
+        }
+        if (gameObject.name == "Tile 5 5") {
+            Instantiate(Barrier, gameObject.transform);
+            Instantiate(ChipK, gameObject.transform);
+            
+        }
+        if (gameObject.name == "Tile 10 0") {
+            Instantiate(Barrier, gameObject.transform);
+        }
+        if (gameObject.name == "Tile 10 10") {
             Instantiate(Barrier, gameObject.transform);
         }
     }
