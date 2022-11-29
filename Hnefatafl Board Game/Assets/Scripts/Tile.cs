@@ -31,12 +31,19 @@ public class Tile : MonoBehaviour
     public GameObject TileLeft2;
 
     
-    public static string CurrentTurn = "Defender"; //The current team thats current turn
+    public static string CurrentTurn = "Defender";
+
+    public int AIChipCount;
+    public string AITeam;
+    public string StartingTurn = CurrentTurn; //The current team thats current turn
     public static GameObject CurrentChipSelected; // Current chip selected
     public GameObject childName; // Name of child chip if there is one
     public bool hasBarrier; // Does this game object have a barrier?
 
+    
+
     public GameObject gameManager;
+
 
     public void Init(bool isOffset) {
         _renderer.color = isOffset ? offsetColor : baseColor; // Adds a color to every odd and even tile.
@@ -44,7 +51,6 @@ public class Tile : MonoBehaviour
 
     void Start()
     {
-
         EmptyTile = GameObject.Find("EmptyTile");
         TileAbove = GameObject.Find($"Tile {TileX} {TileY + 1}");
         TileBelow = GameObject.Find($"Tile {TileX} {TileY - 1}");
@@ -102,7 +108,7 @@ public class Tile : MonoBehaviour
            if (transform.childCount > 0) { //Checks for any children
                if (transform.GetChild(0).name.Contains("Barrier")) { // Checks if the 1st child is a barrier
                    hasBarrier = true; //Sets barrier to true if it is
-                   childName = transform.GetChild(0).gameObject; //Set game object to barrier so theres inst any annoying errors
+                   childName = transform.GetChild(0).gameObject; //Set game object to barrier so theres isnt any annoying errors
                    if (transform.childCount == 2) { // Checks if there is 2 game objects
                        childName = transform.GetChild(1).gameObject; //Sets the child name to the second object which has to the chip
                    }
@@ -116,6 +122,7 @@ public class Tile : MonoBehaviour
                     }
                 }
            }  
+             
         }
 
     void OnMouseOver() { //Checks when the mouse is above this tile
@@ -288,8 +295,10 @@ public class Tile : MonoBehaviour
         } else {
             Tile.CurrentTurn = "Attacker";
         }
-        
     }
+
+    
+
     void GenerateStartingChips9x9 () {
         //Generate all Barriers and King. 
         if (gameObject.name == "Tile 0 0") {

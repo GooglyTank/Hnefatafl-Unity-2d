@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public GameObject ChipKA;
 
     public string CurrentTurn = "Defender";
+    public string StartingTurn;
     Dictionary<int, string> startTileLocA;
     Dictionary<int, string> startTileLocD;
 
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
 
 
     private void Start() {
+        StartingTurn = CurrentTurn;
         if (GridType == "9x9") {
             AttackerChipsNum = 16;
             DefenderChipsNum = 9;
@@ -162,6 +164,7 @@ public class GameManager : MonoBehaviour
             winText.gameObject.SetActive(true);
             winText.text = "Attackers Win!";
         }
+        CurrentTurn = Tile.CurrentTurn;
     }
 
 
