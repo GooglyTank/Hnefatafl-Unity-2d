@@ -6,6 +6,8 @@ public class AIScript : MonoBehaviour
 {
     public bool IsAITurn = true;
     public GameManager gameManager;
+
+    
     
     public string StartingTurn;
     public string CurrentTurn;
@@ -33,15 +35,9 @@ public class AIScript : MonoBehaviour
             int TileX = i.GetComponentInParent<Tile>().TileX;
             int TileY = i.GetComponentInParent<Tile>().TileY;
             if (i.name.Contains("ChipA") && CurrentTurn == "Attacker" || i.name.Contains("ChipD") && CurrentTurn == "Defender") {
-                GameObject TileAbove = GameObject.Find($"Tile {TileX} {TileY + 1}");
-                GameObject TileBelow = GameObject.Find($"Tile {TileX} {TileY - 1}");
-                GameObject TileRight = GameObject.Find($"Tile {TileX + 1} {TileY}");
-                GameObject TileLeft = GameObject.Find($"Tile {TileX - 1} {TileY}");
-
-                GameObject TileAbove2 = GameObject.Find($"Tile {TileX} {TileY + 2}");
-                GameObject TileBelow2 = GameObject.Find($"Tile {TileX} {TileY - 2}");
-                GameObject TileRight2 = GameObject.Find($"Tile {TileX + 2} {TileY}");
-                GameObject TileLeft2 = GameObject.Find($"Tile {TileX - 2} {TileY}");
+                for (int xTile = 0; xTile > TileX - 8; xTile++) {
+                    
+                }
             }
         }
     }
