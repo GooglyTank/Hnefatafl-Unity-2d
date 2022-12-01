@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject ChipKA;
 
-    public string CurrentTurn = "Defender";
+    public string CurrentTurn = "Attacker";
     public string StartingTurn;
     Dictionary<int, string> startTileLocA;
     Dictionary<int, string> startTileLocD;

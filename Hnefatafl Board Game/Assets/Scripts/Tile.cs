@@ -31,7 +31,7 @@ public class Tile : MonoBehaviour
     public GameObject TileLeft2;
 
     
-    public static string CurrentTurn = "Defender";
+    public static string CurrentTurn = "Attacker";
 
     public int AIChipCount;
     public string AITeam;
