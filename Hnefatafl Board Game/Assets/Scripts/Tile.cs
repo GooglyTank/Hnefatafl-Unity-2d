@@ -116,11 +116,6 @@ public class Tile : MonoBehaviour
                  if (!transform.GetChild(0).name.Contains("Barrier")) { //Checks if there isnt a barrier
                 childName = transform.GetChild(0).gameObject; //Sets the child name to the chip
                 }
-                if (childName.name.Contains("ChipK")) {
-                    if (TileAbove.transform.childCount > 0 && TileAbove.transform.GetChild(0).name.Contains("ChipA") && TileBelow.transform.childCount > 0 && TileBelow.transform.GetChild(0).name.Contains("ChipA") && TileLeft.transform.childCount > 0 && TileLeft.transform.GetChild(0).name.Contains("ChipA") && TileRight.transform.childCount > 0 && TileRight.transform.GetChild(0).name.Contains("ChipA")) {
-                        //gameManager.GetComponent<GameManager>().DefenderChipsNum = 0;
-                    }
-                }
            }  
              
         }
@@ -138,7 +133,6 @@ public class Tile : MonoBehaviour
                 }
                 if (childName.name.Contains("ChipA") && Tile.CurrentTurn == "Attacker") { //If the chip is a Attacker and if its the attackers turn
                     Tile.CurrentChipSelected = childName; //Sets global selected chip to this one  
-                    //Tile.CurrentTurn = "Attacker";
                 }
                 if (childName.name.Contains("ChipK") && Tile.CurrentTurn == "Defender") { //If the chip is a King and if its the attackers turn
                     Tile.CurrentChipSelected = childName; //Sets global selected chip to this one
@@ -149,7 +143,7 @@ public class Tile : MonoBehaviour
                     gameManager.GetComponent<GameManager>().AttackerChipsNum = 0;
                 }
             } else {
-                if (Tile.CurrentChipSelected != null) { //If there is no children and a current selected chip when the mouse is clicked on a tile
+                if (Tile.CurrentChipSelected != null) { //If there are no children and there is a current selected chip when the mouse is clicked on a tile
                     CheckValidMove(); //Runs the CheckValidMove function
                 }
             }
@@ -163,14 +157,10 @@ public class Tile : MonoBehaviour
              for(int i = SmallestNum; i < BiggestNum; i++) //Loops through every tile in between where the chip started and being moved to
                 {
                     if (GameObject.Find($"Tile {TileX} {i}").gameObject.transform.childCount > 0 && GameObject.Find($"Tile {TileX} {i}").gameObject.transform.name != $"Tile {Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileX} {Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileY}") { //If any tiles in between has a child set can move to false 
-                        if (GameObject.Find($"Tile {TileX} {i}").gameObject.transform.GetChild(0).name.Contains("BarrierTile") == false) {
-                            Debug.Log("cant Move");
                             CanMove = false;
-                        }
                     } 
                 }
                 if (CanMove == true) { //Checks if can move is true
-                Debug.Log("Moving Pice");
                         Tile.CurrentChipSelected.transform.SetParent(gameObject.transform); // Sets chips parent to the tile its moving to
                         Tile.CurrentChipSelected.transform.position = gameObject.transform.position; //Sets chips pos to the one its moving to
                         Debug.Log(Tile.CurrentChipSelected.transform.parent.name);
@@ -186,14 +176,10 @@ public class Tile : MonoBehaviour
              for(int i = SmallestNum; i < BiggestNum; i++)
                 {
                     if (GameObject.Find($"Tile {i} {TileY}").gameObject.transform.childCount > 0 && GameObject.Find($"Tile {i} {TileY}").gameObject.transform.name != $"Tile {Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileX} {Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileY}") {
-                        if (GameObject.Find($"Tile {i} {TileY}").gameObject.transform.GetChild(0).name.Contains("BarrierTile") == false) {
-                            Debug.Log("cant Move");
                             CanMove = false;
-                        }
                     }
                 }   
                 if (CanMove == true) {
-                        Debug.Log("Moving piece");
                         Tile.CurrentChipSelected.transform.SetParent(gameObject.transform);
                         Tile.CurrentChipSelected.transform.position = gameObject.transform.position;
                         Debug.Log(Tile.CurrentChipSelected.transform.parent.name);
