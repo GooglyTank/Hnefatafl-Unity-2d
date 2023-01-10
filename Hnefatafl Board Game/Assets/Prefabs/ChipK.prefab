@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2226318254778955929}
   m_Layer: 0
   m_Name: ChipK
-  m_TagString: Untagged
+  m_TagString: ChipA
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

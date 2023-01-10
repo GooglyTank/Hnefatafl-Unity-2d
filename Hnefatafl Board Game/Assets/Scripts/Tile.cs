@@ -53,35 +53,27 @@ public class Tile : MonoBehaviour
         gameManager = GameObject.Find("GameManager");
 
         if (TileAbove == null) {
-            Debug.Log("Setting to null");
             TileAbove = EmptyTile;
         }
         if (TileBelow == null) {
-            Debug.Log("Setting to null");
             TileBelow = EmptyTile;
         }
         if (TileLeft == null) {
-            Debug.Log("Setting to null");
             TileLeft = EmptyTile;
         }
         if (TileRight == null) {
-            Debug.Log("Setting to null");
             TileRight = EmptyTile;
         }
         if (TileAbove2 == null) {
-            Debug.Log("Setting to null");
             TileAbove2 = EmptyTile;
         }
         if (TileBelow2 == null) {
-            Debug.Log("Setting to null");
             TileBelow2 = EmptyTile;
         }
         if (TileLeft2 == null) {
-            Debug.Log("Setting to null");
             TileLeft2 = EmptyTile;
         }
         if (TileRight2 == null) {
-            Debug.Log("Setting to null");
             TileRight2 = EmptyTile;
         }
 
@@ -143,11 +135,23 @@ public class Tile : MonoBehaviour
              int BiggestNum = Mathf.Max(TileY, Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileY); //Finds which y is larger
              int SmallestNum = Mathf.Min(TileY, Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileY); //Finds which y is smaller
              bool CanMove = true; //Sets can move to true automatically 
+             if (SmallestNum == Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileY) {
+                SmallestNum += 1;
+             }
+             Debug.Log(BiggestNum);
+             Debug.Log(SmallestNum);
              for(int i = SmallestNum; i < BiggestNum; i++) //Loops through every tile in between where the chip started and being moved to
                 {
-                    if (GameObject.Find($"Tile {TileX} {i}").gameObject.transform.childCount > 0 && GameObject.Find($"Tile {TileX} {i}").gameObject.transform.name != $"Tile {Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileX} {Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileY}") { //If any tiles in between has a child set can move to false 
+                    Debug.Log($"Checking Tile {TileX} {i} for children!");
+                    if (GameObject.Find($"Tile {TileX} {i}").gameObject.transform.childCount > 0) {
+                        int tileChildCount = GameObject.Find($"Tile {TileX} {i}").gameObject.transform.childCount;
+                        if (tileChildCount == 1 && !GameObject.Find($"Tile {TileX} {i}").gameObject.transform.GetChild(0).name.Contains("Barrier")) {
                             CanMove = false;
-                    } 
+                        }
+                        if (tileChildCount == 2) {
+                            CanMove = false;
+                        }
+                    }
                 }
                 if (CanMove == true) { //Checks if can move is true
                         Tile.CurrentChipSelected.transform.SetParent(gameObject.transform); // Sets chips parent to the tile its moving to
@@ -162,10 +166,22 @@ public class Tile : MonoBehaviour
              int BiggestNum = Mathf.Max(TileX, Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileX);
              int SmallestNum = Mathf.Min(TileX, Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileX);
              bool CanMove = true;
+             if (SmallestNum == Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileX) {
+                SmallestNum += 1;
+             }
              for(int i = SmallestNum; i < BiggestNum; i++)
                 {
-                    if (GameObject.Find($"Tile {i} {TileY}").gameObject.transform.childCount > 0 && GameObject.Find($"Tile {i} {TileY}").gameObject.transform.name != $"Tile {Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileX} {Tile.CurrentChipSelected.transform.parent.GetComponent<Tile>().TileY}") {
+                    Debug.Log(BiggestNum);
+                    Debug.Log(SmallestNum);
+                    Debug.Log($"Checking Tile {i} {TileY} for children!");
+                    if (GameObject.Find($"Tile {i} {TileY}").gameObject.transform.childCount > 0) {
+                        int tileChildCount = GameObject.Find($"Tile {i} {TileY}").gameObject.transform.childCount;
+                        if (tileChildCount == 1 && !GameObject.Find($"Tile {i} {TileY}").gameObject.transform.GetChild(0).name.Contains("Barrier")) {
                             CanMove = false;
+                        }
+                        if (tileChildCount == 2) {
+                            CanMove = false;
+                        }
                     }
                 }   
                 if (CanMove == true) {

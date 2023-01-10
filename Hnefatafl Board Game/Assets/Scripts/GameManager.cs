@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     public int speed = 10;
 
-    public string CurrentTurn = "Attacker";
+    public string CurrentTurn;
     public string StartingTurn;
     Dictionary<int, string> startTileLocA;
     Dictionary<int, string> startTileLocD;
@@ -42,8 +42,16 @@ public class GameManager : MonoBehaviour
 
     public AudioSource clickSound;
 
+    public bool AIEnabled;
+
     private void Start() {
         StartingTurn = CurrentTurn;
+        AIEnabled = true;
+        if (AIEnabled == true) {
+            CurrentTurn = "Defender";
+        } else {
+            CurrentTurn = "Attacker";
+        }
         if (GridType == "9x9") {
             AttackerChipsNum = 16;
             DefenderChipsNum = 9;

@@ -1044,6 +1044,7 @@ GameObject:
   - component: {fileID: 862326078}
   - component: {fileID: 862326077}
   - component: {fileID: 862326079}
+  - component: {fileID: 862326080}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1065,11 +1066,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChipA: {fileID: 2050661092384211279, guid: 9f1eb9b0f3868274a8298074c94701d3, type: 3}
   ChipD: {fileID: 2040744053625643526, guid: 7869078a3cf863e499a584e80bcea5db, type: 3}
-  Barrier: {fileID: 6353449486785842312, guid: ea902133e3bc5d64fa5386bc373a4300, type: 3}
-  ChipK: {fileID: 5343338862019370105, guid: d64f092c296e26248b0761ac79f02255, type: 3}
   winText: {fileID: 862481432}
   restartButton: {fileID: 618816640}
-  mainCam: {fileID: 94962917}
   width: 9
   height: 9
   GridType: 9x9
@@ -1078,16 +1076,11 @@ MonoBehaviour:
   StackA: {fileID: 937678890}
   StackD: {fileID: 1147082921}
   speed: 1
-  ChipKA: {fileID: 0}
   CurrentTurn: Attacker
   StartingTurn: 
   cam: {fileID: 94962920}
   tilePrefab: {fileID: 3361029179053992578, guid: c89ca384a4199c04bbe63d741fda4cfa, type: 3}
-  elapsedTime: 0
-  startMovingA: 0
-  startMovingD: 0
   clickSound: {fileID: 862326079}
-  cameraMain: {fileID: 0}
 --- !u!4 &862326078
 Transform:
   m_ObjectHideFlags: 0
@@ -1199,6 +1192,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &862326080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862326076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 162e3f13cbc7a514d838ec3a98c7c08b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsAITurn: 1
+  gameManagerObj: {fileID: 0}
+  gameManager: {fileID: 0}
+  StartingTurn: 
+  CurrentTurn: 
 --- !u!1 &862481430
 GameObject:
   m_ObjectHideFlags: 0
