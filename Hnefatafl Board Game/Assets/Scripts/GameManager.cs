@@ -42,11 +42,11 @@ public class GameManager : MonoBehaviour
 
     public AudioSource clickSound;
 
-    public bool AIEnabled;
+    public bool AIEnabled = false;
 
     private void Start() {
         StartingTurn = CurrentTurn;
-        AIEnabled = true;
+        AIEnabled = false;
         if (AIEnabled == true) {
             CurrentTurn = "Defender";
         } else {

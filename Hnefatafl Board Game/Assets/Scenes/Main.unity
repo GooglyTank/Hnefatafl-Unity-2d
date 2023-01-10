@@ -237,7 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -633,7 +632,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8260890bab5b58341b30a412fd6106de, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d4638bf2a0291b84c970467c23519516, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1081,6 +1080,7 @@ MonoBehaviour:
   cam: {fileID: 94962920}
   tilePrefab: {fileID: 3361029179053992578, guid: c89ca384a4199c04bbe63d741fda4cfa, type: 3}
   clickSound: {fileID: 862326079}
+  AIEnabled: 0
 --- !u!4 &862326078
 Transform:
   m_ObjectHideFlags: 0
@@ -1207,6 +1207,7 @@ MonoBehaviour:
   IsAITurn: 1
   gameManagerObj: {fileID: 0}
   gameManager: {fileID: 0}
+  AIEnabled: 0
   StartingTurn: 
   CurrentTurn: 
 --- !u!1 &862481430

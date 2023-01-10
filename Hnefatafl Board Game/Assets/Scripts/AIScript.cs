@@ -54,7 +54,6 @@ public class AIScript : MonoBehaviour
                     }
                 }
             }
-            break;
             for (int i = tileScript.TileY; i <= 9; i++) {//DOWN
                 
             }
